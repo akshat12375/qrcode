@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/css/form.css">
+</head>
+<body>
+      <h1>Sign Up</h1>
+    <div class="container">
+        <form action="post" method="post" enctype="multipart/form-data">
+            <div>
+            <label for="name">Full Name: </label>
+            <input type="text" name="name" id="name">
+            </div>
+            <div>
+            <!-- <label for="regd_no">Registartion Number:</label>
+            <input name="regd_no" id="regd_no"> -->
+            <textarea name="regd_no" row="1" id="regd_no"readonly>{{re}}</textarea>
+            </div>
+            <div>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email">
+            </div>
+            <div>
+            <label for="dob">Date of Birth:</label>
+            <input type="date" name="dob" id="dob" required>
+           </div>
+           <div>
+            <label for="gender">Gender:</label>
+            <select name="gender" id="gender" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+            </div>
+            <div>
+            <label for="contact">Contact Number:</label>
+            <input type="tel" name="contact" id="contact" required>
+            </div>
+            <div>
+            <label for="address">Address (City & State):</label>
+            <input type="text" name="address" id="address" required>
+            </div>
+            <div>
+            <label for="emergency_contact">Emergency Contact (Name & Phone Number):</label>
+            <input type="text" name="emergency_contact" id="emergency_contact" required>
+            </div>
+            <div>
+            <label for="allergies">Known Allergies:</label>
+            <input type="text" name="allergies" id="allergies">
+            </div>
+            <div>
+            <label for="medications">Current Medications:</label>
+            <input type="text" name="medications" id="medications">
+            </div>
+            <div>
+            <label for="chronic">Chronic Diseases (if any):</label>
+            <input type="text" name="chronic" id="chronic">
+            </div>
+            <div>           
+            <label for="symptoms">Reason for Visit / Symptoms:</label>
+            <textarea name="symptoms" id="symptoms" rows="4" required></textarea>
+            </div>
+            <div class="upload">          
+            <label for="prescription">Upload Prescription:</label>
+            <input type="file" name="prescriptions" id="prescriptions" accept="image/png, image/jpeg, image/jpg, image/webp" multiple required>
+            </div> 
+            <button type="submit"><a href="/login">Submit</a></button>
+        </form>
+        <h4>Already registered? <span><a href="/login">Login</a></span></h4>
+
+    </div>
+    <script>
+        document.getElementById("uploadForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(this);
+            const response = await fetch("http://localhost:5000/upload", {
+                method: "POST",
+                body: formData
+            });
+
+            const result = await response.json();
+            alert("Data submitted successfully! QR Code: " + result.qrCodeUrl);
+        });
+    </script>
+</body>
+</html>

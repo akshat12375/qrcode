@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Care Sathi - Login</title>
+    <link rel="stylesheet" href="/static/css/login.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>Care Sathi - Login</h1>
+        <form action="/login" method="post">
+            <label for="regd_no">Registration Number:</label>
+            <input type="text" id="regd_no" name="regd_no" required>
+
+            <label for="contact">Phone Number:</label>
+            <input type="text" id="contact" name="contact" required>
+
+            <input type="submit" class="btn" value="Login">
+
+            <h5>Don't have an account? <span><a href="/">SignUp</a></span></h5>
+        </form>
+    </div>
+</body>
+
+</html>

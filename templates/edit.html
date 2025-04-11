@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Patient Profile</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: black;
+    }
+
+    form {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    label {
+      font-weight: bold;
+      color: aqua;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin: 6px 0 12px 0;
+      box-sizing: border-box;
+      border-radius: 5rem;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: teal;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    h1 {
+      text-align: center;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Edit Patient Profile</h1>
+
+  <form id="editForm" method="POST" action="/update/{{ user.regd_no }}" enctype="multipart/form-data">
+    <label for="name">Full Name:</label>
+    <input type="text" name="name" id="name" required value="{{ user.name }}">
+
+    <label for="email">Email:</label>
+    <input type="email" name="email" id="email" value="{{ user.email }}">
+
+    <label for="dob">Date of Birth:</label>
+    <input type="date" name="dob" id="dob" value="{{ user.dob }}">
+
+    <label for="gender">Gender:</label>
+    <input type="text" name="gender" id="gender" value="{{ user.gender }}">
+
+    <label for="contact">Contact Number:</label>
+    <input type="text" name="contact" id="contact" required value="{{ user.contact }}">
+
+    <label for="address">Address:</label>
+    <textarea name="address" id="address">{{ user.address }}</textarea>
+
+    <label for="emergency_contact">Emergency Contact:</label>
+    <input type="text" name="emergency_contact" id="emergency_contact" value="{{ user.emergency_contact }}">
+
+    <label for="allergies">Allergies:</label>
+    <textarea name="allergies" id="allergies">{{ user.allergies }}</textarea>
+
+    <label for="medications">Medications:</label>
+    <textarea name="medications" id="medications">{{ user.medications }}</textarea>
+
+    <label for="chronic">Chronic Conditions:</label>
+    <textarea name="chronic" id="chronic">{{ user.chronic }}</textarea>
+
+    <label for="symptoms">Symptoms:</label>
+    <textarea name="symptoms" id="symptoms">{{ user.symptoms }}</textarea>
+
+    <label for="prescriptions">Update Prescription Images:</label>
+    <input type="file" name="prescriptions" id="prescriptions" multiple>
+
+    <button type="submit">Update Profile</button>
+  </form>
+</body>
+
+</html>

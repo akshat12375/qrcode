@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Access</title>
+    <link rel="stylesheet" href="/static/css/login.css">
+    <style>
+        .error {
+            color: #ff4444;
+            margin-bottom: 15px;
+        }
+        .logout-btn {
+            margin-top: 20px;
+            background: #ff4444;
+        }
+        .logout-btn:hover {
+            background: #cc0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="img top">
+        <img src="/static/images/Ellipse 145.png" alt="blur">
+    </div>
+    <div class="img bottom">
+        <img src="/static/images/Ellipse 144.png" alt="blur">
+    </div>
+    <div class="container">
+        <h1>QR Code Access</h1>
+        {% if get_flashed_messages() %}
+            <div class="error">
+                {% for message in get_flashed_messages() %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form action="/qr_login" method="post">
+            <label for="regd_no">Registration Number:</label>
+            <input type="text" id="regd_no" name="regd_no" required>
+
+            <label for="contact">Phone Number:</label>
+            <input type="text" id="contact" name="contact" required>
+
+            <input type="submit" class="btn" value="Login">
+        </form>
+        <!-- {% if session.get('qr_authenticated') %}
+            <a href="/logout" class="btn logout-btn">Logout</a>
+        {% endif %} -->
+    </div>
+</body>
+</html> 

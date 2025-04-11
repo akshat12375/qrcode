@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient QR Code Viewer</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="top">
+        <img src="/static/images/Ellipse 145.png" alt="">
+      </div>
+      <div class="bottom">
+        <img src="/static/images/Ellipse 144.png" alt="">
+      </div>
+    <div class="container">
+        <h1>View Your QR Code</h1>
+        <form id="qrForm">
+            <input type="text" id="regd_no" placeholder="Enter Registration Number" required>
+            <button type="submit">Get QR Code</button>
+        </form>
+        <div id="qrCodeDisplay"></div>
+    </div>
+    <script src="./script.js"></script>
+</body>
+</html>

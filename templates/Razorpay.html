@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Care Sathi - Razorpay Test Payment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --DarkBlue: #003A70;
+      --LighShade: #13dddd;
+      --containerShade: #b7d3e3;
+    }
+
+    body {
+      background-color: var(--DarkBlue);
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: white;
+      margin: 0;
+      padding: 1rem;
+    }
+
+    .container {
+      background-color: var(--containerShade);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 400px;
+    }
+
+    h1 {
+      color: var(--DarkBlue);
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      color: #222;
+      margin-bottom: 1.5rem;
+    }
+
+    button {
+      background-color: var(--DarkBlue);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: var(--LighShade);
+      color: var(--DarkBlue);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Care Sathi</h1>
+    <p>Click below to make a ₹100 test payment</p>
+    <button onclick="payNow()">Pay ₹100</button>
+  </div>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    function payNow() {
+      const options = {
+        "key": "rzp_test_mVnK6XZJdDtnhk", // ✅ Replace with your actual test key
+        "amount": 10000, // in paise (₹100)
+        "currency": "INR",
+        "name": "Care Sathi",
+        "description": "AI Health Checker - Test Payment",
+        "handler": function (response){
+          alert("✅ Payment Successful!\nPayment ID: " + response.razorpay_payment_id);
+        },
+        "prefill": {
+          "name": "Saksham Katiyar",
+          "email": "saksham@example.com",
+          "contact": "9999999999"
+        },
+        "notes": {
+          "purpose": "CareSathi AI Test Payment"
+        },
+        "theme": {
+          "color": "#003A70"
+        }
+      };
+      const rzp = new Razorpay(options);
+      rzp.open();
+    }
+  </script>
+
+</body>
+</html>

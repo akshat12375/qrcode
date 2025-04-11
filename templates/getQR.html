@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>get your QR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Boldonse&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            /* Layout and typography */
+            --border-radius: 1.625rem;
+            --padding: 1.25rem;
+            --gap: 1rem;
+            --font-family: 'Montserrat', serif;
+            --max-width: 85rem;
+
+            /* Text colors */
+            --text-black: #000000;
+            --text-white: #ffffff;
+
+            /* Brand colors */
+            --DarkBlue: #003A70;
+            --LighShade: #13dddd;
+            --containerShade: #b7d3e3;
+
+            /* Theme colors - light mode */
+            --background: 195 100% 95%;
+            --light-blue: 195 76.2% 67.1%;
+            --secondary-background: 195 30% 70%;
+            --light-green: 157 40% 70%;
+            --dark-green: 195 70% 15%;
+            --borderColor: 195 30% 50%;
+            --muted: 195 25% 85%;
+            --muted-foreground: 195 40% 30%;
+        }
+
+        body {
+            background-color: #141414;
+            font-family: 'Montserrat', serif;
+        }
+
+        .container {
+            padding: 10px;
+            padding-top: 30px;
+            width: 80vw;
+            margin: 100px auto;
+            border: 2px solid rgb(40, 35, 35);
+            color: white;
+            border-radius: 1.625rem;
+            background-color: rgba(36, 36, 36, 0.364);
+            margin-top: 20px;
+
+        }
+
+        .top {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: -100;
+            opacity: 80%;
+        }
+
+        .bottom {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            z-index: -100;
+            opacity: 80%;
+        }
+
+        h1 {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--LighShade);
+            font-size: 50px;
+        }
+
+        form {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            flex-wrap: wrap;
+        }
+
+        form div {
+            width: 38vw;
+            margin-top: 10px;
+        }
+
+        form label {
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        form input {
+            padding: 10px;
+            border-radius: 1.625rem;
+            border: none;
+            outline: none;
+            width: 500px;
+            background-color: rgb(44, 44, 44, 33%);
+            color: white;
+        }
+
+        .buttonn {
+            width: 100%;
+            text-align: center;
+        }
+
+        form button {
+            display: block;
+            margin: 30px auto;
+            background: var(--LighShade);
+            color: #111;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 1.625rem;
+            cursor: pointer;
+            width: 150px;
+            font-size: 15px;
+        }
+
+        form select {
+            padding: 10px;
+            width: 200px;
+            background-color: rgb(44, 44, 44, 33%);
+            border-radius: 1.625rem;
+            color: white;
+        }
+
+        form textarea {
+            width: 500px;
+            padding: 15px;
+            background-color: rgb(44, 44, 44, 33%);
+            border-radius: 2rem;
+            color: white;
+        }
+
+        .upload {
+            margin: 10px 28vw;
+        }
+
+        .upload input {
+            background-color: rgb(44, 44, 44, 33%);
+        }
+
+        .required-star {
+            color: crimson;
+            margin-left: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top">
+        <img src="/static/images/Ellipse 145.png" alt="">
+    </div>
+    <div class="bottom">
+        <img src="/static/images/Ellipse 144.png" alt="">
+    </div>
+    <h1>Get Your QR Code</h1>
+    <div class="container">
+        <form action="/order_qr" method="post" enctype="multipart/form-data">
+            <div>
+                <label for="name">First Name<span class="required-star">*</span>:</label>
+                <input type="text" name="name" id="name" placeholder="Enter your first name" required>
+            </div>
+            <div>
+                <label for="regd_no">Last Name:</label>
+                <input type="text" name="regd_no" id="regd_no" placeholder="Enter your last name">
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" placeholder="Enter your email">
+            </div>
+            <div>
+                <label for="phone">Phone Number<span class="required-star">*</span>:</label>
+                <input type="text" id="phone" name="phone" placeholder="Enter your phone number" pattern="\d{10}"
+                    maxlength="10" title="Phone number must be exactly 10 digits" required>
+            </div>
+            <div>
+                <label for="Address Line 1">Address Line 1<span class="required-star">*</span>:</label>
+                <input type="text" name="Address Line 1" id="Address_Line_1" placeholder="Enter your address line 1"
+                    required>
+            </div>
+            <div>
+                <label for="Address Line 2">Address Line 2: </label>
+                <input type="text" name="Address Line 2" id="Address_Line_2" placeholder="Enter your address line 2">
+            </div>
+            <div>
+                <label for="City">City<span class="required-star">*</span>:</label>
+                <input type="text" name="City" id="City" placeholder="Enter your city" required>
+            </div>
+            <div>
+                <label for="State">State<span class="required-star">*</span>:</label>
+                <input type="text" name="State" id="State" placeholder="Enter your state" required>
+            </div>
+            <div>
+                <label for="Pincode">Pincode<span class="required-star">*</span>:</label>
+                <input type="text" name="Pincode" id="Pincode" placeholder="Enter your pincode" required>
+            </div>
+            <div>
+                <label for="gender">Gender<span class="required-star">*</span>:</label>
+                <select name="gender" id="gender" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div>
+                <label for="emergency_contact">Alternate Contact Number:</label>
+                <input type="text" name="emergency_contact" id="emergency_contact"
+                    placeholder="Enter your alternate contact number" required>
+            </div>
+            <div class="buttonn">
+                <button type="submit" href="/order_QR" >Submit</button>
+            </div>
+        </form>
+
+    </div>
+    
+</body>
+
+</html>

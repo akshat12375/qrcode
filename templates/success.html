@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            color: white;
+            background-color: #141414;
+        }
+
+        .top {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: -100;
+            opacity: 80%;
+        }
+
+        .bottom {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            z-index: -100;
+            opacity: 80%;
+        }
+
+        .container {
+            background-color:rgb(20, 20, 20,10%)   ;
+            border: 2px solid rgb(40, 35, 35);
+            text-align: center;
+            margin: 200px auto;
+            width: 30vw;
+            height: 35vh;
+            padding: 20px;
+            border-radius: 1.625rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding-top: 6rem;
+        }
+
+        .qr {
+            margin: 30px auto;
+            background: #49ed33;
+            color: #111;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 1.625rem;
+            cursor: pointer;
+            width: 150px;
+            font-size: 15px;
+        }
+
+        .edit {
+            margin: 30px auto;
+            background: #33a1ed;
+            color: #111;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 1.625rem;
+            cursor: pointer;
+            width: 150px;
+            font-size: 15px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: #141414;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top">
+        <img src="/static/images/Ellipse 145.png" alt="">
+    </div>
+    <div class="bottom">
+        <img src="/static/images/Ellipse 144.png" alt="">
+    </div>
+    <div class="container">
+        <p>Form submitted successfully and QR code generated</p>
+        <div class="button-container">
+            <button class="qr"><a href="/view">View QR Code</a></button>
+            <button class="edit"><a href="/edit?regd_no={{ re }}">Edit Details</a></button>
+        </div>
+    </div>
+
+</body>
+
+</html>

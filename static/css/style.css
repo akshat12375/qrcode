@@ -1,0 +1,58 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #141414;
+    color:white;
+    font-family: 'Montserrat', serif;
+}
+.container {
+    border:2px solid rgb(40, 35, 35);
+    background-color:rgb(20, 20, 20,10%)   ;
+    text-align: center;
+    height:55vh;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.top{
+    position: absolute;
+    left:0;
+    top:0;
+    z-index:-100;
+    opacity:80%;
+}
+.bottom{
+    position: fixed; 
+    bottom:0;
+    right: 0;
+    z-index:-100;
+    opacity: 80%;
+}
+input {
+    padding: 10px;
+    margin: 10px 0;
+    width: 80%;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #A3F344;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+#qrCodeDisplay img {
+    margin-top: 20px;
+    max-width: 100%;
+}
+input{
+    background-color:black;
+    color:white;
+}
