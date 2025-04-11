@@ -7,23 +7,19 @@ import os
 from werkzeug.utils import secure_filename
 import base64
 import secrets
-from werkzeug.middleware.proxy_fix import ProxyFix
 
-registeration = 0
+registeration=0
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
-app.secret_key = secrets.token_hex(16)
-
-# Middleware for correct URL detection behind proxies
-app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1)
+app.secret_key = secrets.token_hex(16)  # For session management
 
 # MongoDB connection
 client = MongoClient('mongodb+srv://divya2023verma:S3PvpiiLv5dD9aro@caresathi.j6nvzrh.mongodb.net/')
 db = client['students']
 users_collection = db['data']
-fs = db['fs']
+fs = db['fs']  # For GridFS
 
 # Ensure upload directory exists
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
@@ -31,7 +27,7 @@ if not os.path.exists(app.config['UPLOAD_FOLDER']):
 
 @app.route('/')
 def index():
-    return render_template('form.html', re=registeration)
+    return render_template('form.html',re=registeration)
 
 @app.route('/view')
 def view():
@@ -40,46 +36,51 @@ def view():
 @app.route('/book')
 def book():
     return render_template('getQR.html')
-
-@app.route('/order_qr', methods=['POST'])
+@app.route('/order_qr',methods=['POST'])
 def order_QR():
-    order = db["orderdata"]
-    fname = request.form.get("name")
-    lname = request.form.get("regd_no")
-    email = request.form.get("email")
-    addr1 = request.form.get("Address_Line_1")
-    phone = request.form.get("phone")
-    add2 = request.form.get("Address_Line_2")
-    city = request.form.get("City")
-    State = request.form.get("State")
-    pin = request.form.get("Pincode")
-    gender = request.form.get("gender")
-    emergency = request.form.get("emergency_contact")
-
-    order.insert_one({
-        'fname': fname,
-        'lname': lname,
-        'email': email,
-        'addr1': addr1,
-        'phone': phone,
-        "add2": add2,
-        "city": city,
-        "state": State,
-        "pin": pin,
-        "gender": gender,
-        "emergency": emergency,
-    })
+    order=db["orderdata"]
+    fname=request.form.get("name")
+    lname=request.form.get("regd_no")
+    email=request.form.get("email")
+    addr1=request.form.get("Address_Line_1")
+    phone=request.form.get("phone")
+    add2=request.form.get("Address_Line_2")
+    city=request.form.get("City")
+    State=request.form.get("State")
+    pin=request.form.get("Pincode")
+    gender=request.form.get("gender")
+    emergency=request.form.get("emergency_contact")
+    order.insert_one({'fname':fname,
+                      'lname':lname,
+                      'email':email,
+                      'addr1':addr1,
+                      'phone':phone,
+                      "add2":add2,
+                      "city":city,
+                      "state":State,
+                      "pin":pin,
+                      "gender":gender,
+                      "emergency":emergency,
+                      })
     return render_template("Razorpay.html")
+
+
+
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         regd_no = request.form.get('regd_no')
         contact = request.form.get('contact')
+        
         user = users_collection.find_one({'regd_no': regd_no})
         if not user or user['contact'] != contact:
             return "Invalid credentials", 401
+        
+        # Direct access without QR authentication
         return redirect(f'/patient/{regd_no}')
+    
     return render_template('login.html')
 
 @app.route('/post', methods=['POST'])
@@ -87,10 +88,11 @@ def post():
     try:
         data = request.form.to_dict()
         files = request.files.getlist('prescriptions')
-
+        
         if not files:
             return "No prescription images uploaded.", 400
 
+        # Save prescription images
         image_filenames = []
         for file in files:
             if file:
@@ -99,19 +101,19 @@ def post():
                 file.save(file_path)
                 image_filenames.append(filename)
 
-        # ✅ Dynamic QR code URL
-        login_url = request.url_root.rstrip('/') + '/qr_login'
-
+        # Generate QR code with login URL
         qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        qr.add_data(login_url)
+        qr.add_data(f"http://qrcode-3rhv.onrender.com/qr_login")
         qr.make(fit=True)
         qr_image = qr.make_image(fill_color="black", back_color="white")
-
+        
+        # Save QR code
         qr_filename = f"{data['regd_no']}_qr.png"
         qr_path = os.path.join(app.config['UPLOAD_FOLDER'], qr_filename)
         qr_image.save(qr_path)
-
         global registeration
+        
+        # Save to MongoDB
         user_data = {
             'regd_no': str(registeration),
             'name': data['name'],
@@ -128,10 +130,10 @@ def post():
             'prescription_images': image_filenames,
             'qr_code': qr_filename
         }
-
+        
         users_collection.insert_one(user_data)
-        registeration += 1
-        return render_template('success.html', re=str(registeration - 1))
+        registeration=registeration+1
+        return render_template('success.html', re=str(registeration-1))
 
     except Exception as e:
         print(f"Error: {e}")
@@ -142,24 +144,29 @@ def qr_login():
     if request.method == 'POST':
         regd_no = request.form.get('regd_no')
         contact = request.form.get('contact')
+        
         user = users_collection.find_one({'regd_no': regd_no})
         if not user or user['contact'] != contact:
             flash('Invalid credentials. Please try again.', 'error')
             return render_template('qr_login.html')
-
+        
         session['qr_authenticated'] = True
         session['qr_regd_no'] = regd_no
         return redirect(f'/patient/{regd_no}')
+    
     return render_template('qr_login.html')
 
 @app.route('/patient/<regd_no>')
 def patient(regd_no):
+    # Check if the request is coming from QR code scan
     if request.referrer and 'qr_login' in request.referrer:
         if not session.get('qr_authenticated') or session.get('qr_regd_no') != regd_no:
             return redirect('/qr_login')
+    
     user = users_collection.find_one({'regd_no': regd_no})
     if not user:
         return "Patient not found.", 404
+    
     return render_template('patient.html', user=user)
 
 @app.route('/logout')
@@ -177,23 +184,26 @@ def serve_qr(regd_no):
     user = users_collection.find_one({'regd_no': regd_no})
     if not user or 'qr_code' not in user:
         return "QR code not found.", 404
+    
     return send_file(os.path.join(app.config['UPLOAD_FOLDER'], user['qr_code']))
 
 @app.route('/print')
 def printqr():
     return render_template("qrprint.html")
 
-@app.route('/submit', methods=['POST'])
+@app.route('/submit',methods=['POST'])
 def submitqr():
-    user = request.form.get("regd_no")
-    person = users_collection.find_one({'regd_no': user})
-    return render_template("final.html", user=person)
+    user=request.form.get("regd_no")
+    mobile=request.form.get("contact")
+    person=users_collection.find_one({'regd_no': user})
+    return render_template("final.html",user=person)
 
 @app.route('/edit/<regd_no>', methods=['GET'])
 def edit(regd_no):
     user = users_collection.find_one({"regd_no": regd_no})
     if not user:
         return "Patient not found.", 404
+
     return render_template('edit.html', user=user)
 
 @app.route('/update/<regd_no>', methods=['POST'])
@@ -226,6 +236,7 @@ def update(regd_no):
                 file.save(file_path)
                 imageFilenames.append(filename)
 
+    # Update user data in MongoDB
     users_collection.update_one({"regd_no": regd_no}, {"$set": {
         "name": name,
         "email": email,
@@ -241,8 +252,9 @@ def update(regd_no):
         "prescription_images": imageFilenames
     }})
 
-    # ✅ Regenerate QR code with dynamic URL
-    qr_data = request.url_root.rstrip('/') + '/qr_login'
+    # Regenerate QR code
+    qr_data = f"http://qrcode-3rhv.onrender.com/qr_login"
+    
     qr_image = qrcode.make(qr_data)
     qr_filename = f"{regd_no}_qr.png"
     qr_path = os.path.join(app.config['UPLOAD_FOLDER'], qr_filename)
@@ -255,4 +267,4 @@ def update(regd_no):
     return redirect(f"/patient/{regd_no}")
 
 if __name__ == '__main__':
-    app.run(port=3019, debug=True)
+    app.run(port=3019, debug=True) 
