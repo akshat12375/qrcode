@@ -8,7 +8,6 @@ from werkzeug.utils import secure_filename
 import base64
 import secrets
  
-registeration=0
  
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -17,7 +16,7 @@ app.secret_key = secrets.token_hex(16)  # For session management
  
  # MongoDB connection
 client = MongoClient('mongodb://localhost:27017')
-db = client['new_students']
+db = client['students']
 users_collection = db['data']
 fs = db['fs']  # For GridFS
  
@@ -27,7 +26,7 @@ if not os.path.exists(app.config['UPLOAD_FOLDER']):
  
 @app.route('/')
 def index():
-     return render_template('form.html',re=registeration)
+     return render_template('form.html')
  
 @app.route('/view')
 def view():
@@ -111,11 +110,11 @@ def post():
          qr_filename = f"{data['regd_no']}_qr.png"
          qr_path = os.path.join(app.config['UPLOAD_FOLDER'], qr_filename)
          qr_image.save(qr_path)
-         global registeration
+        
          
          # Save to MongoDB
          user_data = {
-             'regd_no': str(registeration),
+             'regd_no': data['regd_no'],
              'name': data['name'],
              'email': data['email'],
              'dob': data['dob'],
@@ -132,8 +131,7 @@ def post():
          }
          
          users_collection.insert_one(user_data)
-         registeration=registeration+1
-         return render_template('success.html', re=str(registeration-1))
+         return render_template('success.html',user=user_data)
  
      except Exception as e:
          print(f"Error: {e}")
@@ -264,6 +262,40 @@ def update(regd_no):
      }})
  
      return redirect(f"/patient/{regd_no}")
+# @app.route('/add_prescription/<regd_no>', methods=['GET', 'POST'])
+# def add_prescription(regd_no):
+#     user = users_collection.find_one({"regd_no": regd_no})
+#     if not user:
+#         return "Patient not found.", 404
+
+#     if request.method == 'POST':
+#         files = request.files.getlist('prescriptions')
+#         notes = request.form.get("doctor_notes", "")
+
+#         imageFilenames = user.get("prescription_images", [])
+#         doctorNotes = user.get("doctor_notes", "")
+
+#         for file in files:
+#             if file:
+#                 filename = f"{regd_no}_{secure_filename(file.filename)}"
+#                 file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+#                 file.save(file_path)
+#                 imageFilenames.append(filename)
+
+#         # Append new notes to existing ones (optional: add timestamp)
+#         if notes:
+#             doctorNotes += f"\n\n---\n{notes}"
+
+#         users_collection.update_one({"regd_no": regd_no}, {
+#             "$set": {
+#                 "prescription_images": imageFilenames,
+#                 "doctor_notes": doctorNotes
+#             }
+#         })
+
+#         return redirect(f"/patient/{regd_no}")
+
+#     return render_template('add_prescription.html', user=user)
  
 if __name__ == '__main__':
      app.run(port=3019, debug=True)
