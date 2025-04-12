@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Care Sathi - Razorpay Test Payment</title>
@@ -31,6 +32,7 @@
       border-radius: 1rem;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       text-align: center;
+      width: 100%;
       max-width: 400px;
     }
 
@@ -62,11 +64,12 @@
     }
   </style>
 </head>
+
 <body>
 
   <div class="container">
     <h1>Care Sathi</h1>
-    <p>Click below to make a ₹100 test payment</p>
+    <p>CareCode Payment</p>
     <button onclick="payNow()">Pay ₹100</button>
   </div>
 
@@ -74,21 +77,21 @@
   <script>
     function payNow() {
       const options = {
-        "key": "rzp_test_mVnK6XZJdDtnhk", // ✅ Replace with your actual test key
+        "key": "rzp_test_vePcun5Ws3LR8A", // ✅ Replace with your actual test key
         "amount": 10000, // in paise (₹100)
         "currency": "INR",
         "name": "Care Sathi",
-        "description": "AI Health Checker - Test Payment",
-        "handler": function (response){
+        "description": "CareCode Payment",
+        "handler": function (response) {
           alert("✅ Payment Successful!\nPayment ID: " + response.razorpay_payment_id);
         },
         "prefill": {
           "name": "Saksham Katiyar",
           "email": "saksham@example.com",
-          "contact": "9999999999"
+          "contact": "6389755120"
         },
         "notes": {
-          "purpose": "CareSathi AI Test Payment"
+          "purpose": "CareSathi CareCode Payment"
         },
         "theme": {
           "color": "#003A70"
@@ -100,4 +103,5 @@
   </script>
 
 </body>
+
 </html>
