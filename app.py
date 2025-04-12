@@ -15,7 +15,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 app.secret_key = secrets.token_hex(16)  # For session management
  
  # MongoDB connection
-client = MongoClient('mongodb+srv://divya:<16feb1976>@care.k5vvsif.mongodb.net/')
+client = MongoClient('mongodb+srv://divya:16feb1976@care.k5vvsif.mongodb.net/?authSource=admin')
 db = client['students']
 users_collection = db['data']
 fs = db['fs']  # For GridFS
