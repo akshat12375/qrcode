@@ -1,41 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Information</title>
-    <link rel="stylesheet" href="/static/css/display.css">
-</head>
-<body>
-    <div class="top">
-        <img src="/static/images/Ellipse 145.png" alt="">
-    </div>
-    <div class="bottom">
-        <img src="/static/images/Ellipse 144.png" alt="">
-    </div>
-    <div class="container">
-        <h1>Patient Information</h1>
-        <p><strong>Registration Number:</strong> {{ user.regd_no }}</p>
-        <p><strong>Full Name:</strong> {{ user.name }}</p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <p><strong>Date of Birth:</strong> {{ user.dob }}</p>
-        <p><strong>Gender:</strong> {{ user.gender }}</p>
-        <p><strong>Contact:</strong> {{ user.contact }}</p>
-        <p><strong>Address:</strong> {{ user.address }}</p>
-        <p><strong>Emergency Contact:</strong> {{ user.emergency_contact }}</p>
-        <p><strong>Allergies:</strong> {{ user.allergies }}</p>
-        <p><strong>Medications:</strong> {{ user.medications }}</p>
-        <p><strong>Chronic Diseases:</strong> {{ user.chronic }}</p>
-        <p><strong>Symptoms:</strong> {{ user.symptoms }}</p>
-        <img src="/qr/{{ user.regd_no }}" alt="QR Code" />
-        <h3>Prescription:</h3>
-        {% for image in user.prescription_images %}
-            <img src="/image/{{ image }}" alt="Prescription Image" style="max-width: 300px; display: block; margin-bottom: 10px;">
-        {% endfor %}
-        <!-- <button class="edit"><a href="/edit?regd_no={{ re }}">Edit Details</a></button> -->
-        <a href="/edit/{{ user.regd_no }}">
-            <button style="padding: 10px 20px; background-color: teal; color: white; border: none; cursor: pointer;">Edit Profile</button>
-        </a>
-    </div>
-</body>
-</html> 
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Patient Information</title>
+     <link rel="stylesheet" href="/static/css/display.css">
+ </head>
+ <body>
+     <div class="top">
+         <img src="/static/images/Ellipse 145.png" alt="">
+     </div>
+     <div class="bottom">
+         <img src="/static/images/Ellipse 144.png" alt="">
+     </div>
+     <div class="container">
+         <h1>Patient Information</h1>
+         <p><strong>Registration Number:</strong> {{ user.regd_no }}</p>
+         <p><strong>Full Name:</strong> {{ user.name }}</p>
+         <p><strong>Email:</strong> {{ user.email }}</p>
+         <p><strong>Date of Birth:</strong> {{ user.dob }}</p>
+         <p><strong>Gender:</strong> {{ user.gender }}</p>
+         <p><strong>Contact:</strong> {{ user.contact }}</p>
+         <p><strong>Address:</strong> {{ user.address }}</p>
+         <p><strong>Emergency Contact:</strong> {{ user.emergency_contact }}</p>
+         <p><strong>Allergies:</strong> {{ user.allergies }}</p>
+         <p><strong>Medications:</strong> {{ user.medications }}</p>
+         <p><strong>Chronic Diseases:</strong> {{ user.chronic }}</p>
+         <p><strong>Symptoms:</strong> {{ user.symptoms }}</p>
+         <img src="/qr/{{ user.regd_no }}" alt="QR Code" />
+         <h3>Prescription:</h3>
+         {% for image in user.prescription_images %}
+             <img src="/image/{{ image }}" alt="Prescription Image" style="max-width: 300px; display: block; margin-bottom: 10px;">
+         {% endfor %}
+         <!-- <button class="edit"><a href="/edit?regd_no={{ re }}">Edit Details</a></button> -->
+         <a href="/edit/{{ user.regd_no }}">
+             <button style="padding: 10px 20px; background-color: teal; color: white; border: none; cursor: pointer;">Edit Profile</button>
+         </a>
+     </div>
+ </body>
+ </html> 
